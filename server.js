@@ -11,6 +11,11 @@ app.use(express.static(__dirname + "/public"));
 app.use (express.urlencoded({extended : false}));
 app.use(express.json());
 
+
+app.get('/' , (req,res)=>{
+    
+    res.json({data:users});
+})
 app.get('/:id' , (req,res)=>{
     let user = users.find((user)=>{
         if(user.id == req.params.id){
@@ -59,6 +64,18 @@ app.put('/:id' , (req,res)=>{
     message : ' succssiful'
   })
 })
+app.delete('/:id' , (req,res)=>{
+    users = users.filter(user=>{
+        if(user.id != req.params.id){
+            return user;
+        }
+    })
+
+    res.json({
+        data : 'user delet'
+    })
+})
+
  
 app.listen(config.port , ()=> {
     console.log(`server running on port ${config.port} `)
