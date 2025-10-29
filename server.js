@@ -1,5 +1,6 @@
 const express = require('express') ;
 const app = express();
+const {body , validationResult} = require('express-validator');
 
 
 global.config = require('./config/config.js');
@@ -23,7 +24,19 @@ app.get('/:id' , (req,res)=>{
 
 })
 
-app.post('/' , (req,res)=>{
+app.post('/' , [
+    body('email' , 'email is empty').isEmail(),
+    body('password' , 'password min 5 length').isLength({ min : 5}) 
+] ,  (req,res)=>{
+
+const error = validationResult(req);
+if(!error.isEmpty()){
+    return res.status(422).json({
+        data:null ,
+        message : error.array()
+    });
+}
+
     console.log(req.body);
     req.body.id = parseInt(req.body.id);
     users.push(req.body);
