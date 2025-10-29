@@ -46,6 +46,19 @@ if(!error.isEmpty()){
     });
 });
 
+app.put('/:id' , (req,res)=>{
+  users = users.map(user=>{
+    if(user.id = req.params.id){
+        return req.body ;
+    }else{
+        return user;
+    }
+  })
+  res.json({
+    data: users ,
+    message : ' succssiful'
+  })
+})
  
 app.listen(config.port , ()=> {
     console.log(`server running on port ${config.port} `)
