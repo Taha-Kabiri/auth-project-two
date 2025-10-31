@@ -10,7 +10,7 @@ let users = require('../user-list');
 
 router.get('/' , (req,res)=>{
     
-    res.json({data:users});
+    res.render('user' , {users : users , title : 'همه کاربران '});
 })
 router.get('/:id' , (req,res)=>{
     let user = users.find((user)=>{
