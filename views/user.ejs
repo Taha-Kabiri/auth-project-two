@@ -4,6 +4,15 @@
     <title><%= title %></title>
   </head>
   <body>
+    <div>
+        <form action="/api/user" method="post">
+                <input type="text" placeholder="id" name="id">
+            <input type="text" placeholder="firstname" name="firstname">
+            <input type="text" placeholder="email" name="email">
+            <input type="text" placeholder="password" name="password">
+            <input type="submit">
+         </form>
+    </div>
     <table>
       <thead>
         <tr>

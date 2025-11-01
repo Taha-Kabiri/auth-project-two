@@ -32,10 +32,7 @@ router.post('/' , [
 
 const error = validationResult(req);
 if(!error.isEmpty()){
-    return res.status(422).json({
-        data:null ,
-        message : error.array()
-    });
+    return res.redirect('/api/user')
 }
 
     console.log(req.body);
