@@ -19,10 +19,7 @@ router.get('/:id' , (req,res)=>{
         };
     });
 
-    res.json({
-        data:user, 
-    });
-
+    res.render('update-user' , { user : user})
 });
 
 router.post('/' , [
