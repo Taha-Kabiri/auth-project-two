@@ -38,10 +38,7 @@ if(!error.isEmpty()){
     console.log(req.body);
     req.body.id = parseInt(req.body.id);
     users.push(req.body);
-    res.json({
-        data:users,
-        message:'کاربر اد شد '
-    });
+    res.redirect('/api/user')
 });
 
 router.put('/:id' , (req,res)=>{
@@ -64,9 +61,7 @@ router.delete('/:id' , (req,res)=>{
         }
     })
 
-    res.json({
-        data : 'user delet'
-    })
+    res.redirect('/api/user');
 });
 
 

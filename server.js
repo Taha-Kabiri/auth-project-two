@@ -1,6 +1,6 @@
 const express = require('express') ;
 const app = express();
-
+const methodOverride = require('method-override');
 
 
 global.config = require('./config/config.js');
@@ -11,6 +11,7 @@ app.use(express.static(__dirname + "/public"));
 app.use (express.urlencoded({extended : false}));
 app.use(express.json());
 app.set('view engine' , 'ejs');
+app.use(methodOverride('method'));
 
 
 

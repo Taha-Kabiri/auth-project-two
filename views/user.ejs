@@ -29,6 +29,12 @@
           <td><%= user.firstname %></td>
           <td><%= user.email %></td>
           <td><%= user.password%></td>
+          <td>
+            <form action="/api/user/<%= user.id %>?method=DELETE" method="POST">
+            <input type="submit" value="remove">  
+            </form>
+                
+          </td>
         </tr>
 
              <% }) %>
