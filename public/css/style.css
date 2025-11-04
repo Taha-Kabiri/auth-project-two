@@ -5,3 +5,11 @@ table{
 table td{
   border: 1px solid #444;
 }
+
+div li{
+  color: rgb(255, 0, 0);
+}
+
+div h4{
+  color: rgb(42, 160, 26);
+}
