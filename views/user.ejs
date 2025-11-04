@@ -5,6 +5,19 @@
   </head>
   <body>
     <div>
+       <% if(errors && errors.length > 0){ %>
+        
+            <ul>
+             <% errors.forEach(function(err) { %>
+                <li> <%= err.msg %></li>
+              <% }) %>
+            </ul>
+         <% } %>
+    </div>
+    
+        </div>
+      
+    
         <form action="/api/user" method="post">
                 <input type="text" placeholder="id" name="id">
             <input type="text" placeholder="firstname" name="firstname">

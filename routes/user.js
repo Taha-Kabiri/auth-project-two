@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {body , validationResult} = require('express-validator');
 
+
 let users = require('../user-list');
 
 
@@ -10,7 +11,7 @@ let users = require('../user-list');
 
 router.get('/' , (req,res)=>{
     
-    res.render('user' , {users : users , title : 'همه کاربران '});
+    res.render('user' , {users : users , title : 'همه کاربران ' , errors : req.flash('errors')});
 })
 router.get('/:id' , (req,res)=>{
     let user = users.find((user)=>{
@@ -23,12 +24,15 @@ router.get('/:id' , (req,res)=>{
 });
 
 router.post('/' , [
-    body('email' , 'email is empty').isEmail(),
-    body('password' , 'password min 5 length').isLength({ min : 5}) 
+    body('email' , 'Enter your email.').isEmail(),
+    body('password' , 'The minimum password characters are 5 ').isLength({ min : 5}) ,
+    body('firstname' , 'Write your name, Martike.').isLength({ min : 2}),
+    body('id' , 'Complete the ID').isLength({ min : 1})
 ] ,  (req,res)=>{
 
 const error = validationResult(req);
 if(!error.isEmpty()){
+    req.flash('errors' , error.array());
     return res.redirect('/api/user')
 }
 
