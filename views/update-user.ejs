@@ -4,7 +4,7 @@
   </head>
     <body>
         <div>
-        <form action="/api/user" method="post">
+        <form action="/api/user/<%= user.id %>?method=PUT" method="POST">
                 <input type="text" placeholder="id" name="id" value="<%= user.id %>">
             <input type="text" placeholder="firstname" name="firstname" value="<%= user.firstname %>">
             <input type="text" placeholder="email" name="email" value="<%= user.email %>">
