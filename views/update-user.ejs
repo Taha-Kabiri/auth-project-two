@@ -1,17 +1,29 @@
 <html>
-  <head>
-    
-  </head>
-    <body>
-        <div>
-        <form action="/api/user/<%= user.id %>?method=PUT" method="POST">
-                <input type="text" placeholder="id" name="id" value="<%= user.id %>">
-            <input type="text" placeholder="firstname" name="firstname" value="<%= user.firstname %>">
-            <input type="text" placeholder="email" name="email" value="<%= user.email %>">
-            <input type="text" placeholder="password" name="password" value="<%= user.password%>">
-            <input type="submit" value="update">
-         </form>
+  <head> </head>
+  <body>
+    <div>
+      <form action="/api/user/<%= user.id %>?method=PUT" method="POST">
+        <input type="text" placeholder="id" name="id" value="<%= user.id %>" />
+        <input
+          type="text"
+          placeholder="firstname"
+          name="firstname"
+          value="<%= user.firstname %>"
+        />
+        <input
+          type="text"
+          placeholder="email"
+          name="email"
+          value="<%= user.email %>"
+        />
+        <input
+          type="text"
+          placeholder="password"
+          name="password"
+          value="<%= user.password%>"
+        />
+        <input type="submit" value="update" />
+      </form>
     </div>
-    
-    </body>
+  </body>
 </html>

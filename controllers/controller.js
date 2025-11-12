@@ -1,10 +1,5 @@
 class Controller {
-
-  constructor(){
-
-    
-  }
-  
-};
+  constructor() {}
+}
 
 module.exports = Controller;
