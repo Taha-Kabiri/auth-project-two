@@ -30,7 +30,14 @@ app.use(
 
 app.use(flash());
 
-app.use("/api/user", require("./routes/user.js"));
+app.use("/", require("./routes/index.js"));
+
+// after all routes
+app.use((req, res, next) => {
+  res.status(404).json({
+    message: "Not Found :/",
+  });
+});
 
 app.listen(config.port, () => {
   console.log(`server running on port ${config.port} `);

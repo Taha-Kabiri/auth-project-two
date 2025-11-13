@@ -7,6 +7,8 @@ const { body, validationResult } = require("express-validator");
 
 const UserController = require("../controllers/userController");
 
+router.get("/test", UserController.Example1.bind(UserController));
+
 router.get("/", UserController.getAllUsers.bind(UserController));
 
 router.get("/:id", UserController.seeOneUser.bind(UserController));
