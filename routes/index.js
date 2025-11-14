@@ -1,16 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-router.use("/user", require("./user"));
-/*
-router.all("*", (req, res, next) => {
-  try {
-    let err = new Error(" چنین صفحه ای پیدا نشد ");
-    err.statuse = 404;
-    throw err;
-  } catch (err) {
-    next(err);
-  }
-});*/
+router.use("/api/user", require("./user"));
+
+router.use("/api/auth", require("./auth"));
+
 
 module.exports = router;

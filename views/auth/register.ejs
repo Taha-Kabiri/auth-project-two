@@ -1,0 +1,17 @@
+<div>
+  <% if(errors && errors.length > 0){ %>
+
+  <ul>
+    <% errors.forEach(function(err) { %>
+    <li><%= err.msg %></li>
+    <% }) %>
+  </ul>
+  <% } %>
+</div>
+
+<form action="/api/auth/register" method="POST">
+  <input type="text" placeholder="firstname" name="firstname" />
+  <input type="text" placeholder="email" name="email" />
+  <input type="text" placeholder="password" name="password" />
+  <input type="submit" value="register" id="" />
+</form>
