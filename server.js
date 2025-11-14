@@ -5,6 +5,8 @@ const cookieparser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo");
+const passport = require("passport");
 require("dotenv").config();
 
 global.config = require("./config/config.js");
@@ -25,10 +27,18 @@ app.use(
     secret: process.env.session_key,
     resave: true,
     saveUninitialized: true,
+    cookie : {expires : new Date(Date.now() + 1000 * 3600 * 24 * 1)},
+    store : MongoStore.create({
+  client: mongoose.connection.getClient()
+}),
   })
 );
 
 app.use(flash());
+
+require("./passport/passport-local.js");
+app.use(passport.initialize());
+app.use(passport.session()); 
 
 app.use("/", require("./routes/index.js"));
 
