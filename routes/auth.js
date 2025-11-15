@@ -5,7 +5,15 @@ const { body, validationResult } = require("express-validator");
 // controllers ------------------------------------------------------------------------
 
 const authController = require("../controllers/authController");
+const { route } = require("./user");
 
+
+router.use((req , res , next)=>{
+  if(req.isAuthenticated()){
+    return res.redirect('/api/dashbord')
+  }
+  next();
+});
 
 router.get("/login", authController.loginForm.bind(authController));
 router.get("/register", authController.registerForm.bind(authController));

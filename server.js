@@ -36,7 +36,7 @@ app.use(
 
 app.use(flash());
 
-require("./passport/passport-local.js");
+ require("./passport/passport-local");
 app.use(passport.initialize());
 app.use(passport.session()); 
 

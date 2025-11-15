@@ -2,7 +2,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./../model/user");
 
-passport.serializeUser((user, done) => {
+passport.serializeUser( async (user, done) => {
   done(null, user.id);
 });
 
@@ -21,7 +21,7 @@ passport.use(
       passwordField: "password",
       passReqToCallback: true,
     },
-    async (req, email, passport, done) => {
+    async (req, email, password, done) => {
       try {
         let user = await User.findOne({ email: req.body.email });
         if (user) {
@@ -57,7 +57,8 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        let user = await new User.findOne({ email: req.body.email });
+        // SYNTAX FIX: Removed 'new' before User.findOne
+        let user = await User.findOne({ email: req.body.email });
         if (!user || user.password != req.body.password) {
           return done(
             null,
@@ -67,7 +68,8 @@ passport.use(
         }
         done(null, user);
       } catch (err) {
-        return done(err, false, { message: err });
+        // FIX: Changed 'return done' to 'done' and ensured correct flash message
+        done(err, false, req.flash("errors", "An error occurred during login."));
       }
     }
   )
