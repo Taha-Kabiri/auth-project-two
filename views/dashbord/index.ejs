@@ -1,4 +1,32 @@
+<div>
+       <% if(errors && errors.length > 0){ %>
+        
+            <ul>
+             <% errors.forEach(function(err) { %>
+                <li> <%= err.msg %></li>
+              <% }) %>
+            </ul>
+         <% } %>
+    </div>
 
 <h1>dashbord</h1>
 <h3><%= req.user.firstname %></h3>
-<a href="/api/logout"> logout</a>
+
+<form
+  action="/api/dashbord/edituser"
+  method="POST"
+  enctype="multipart/form-data"
+>
+
+<img src="<%= req.user.img %>" style="width: 100px; border: 50px ;"  alt="">
+  <input type="hidden" name="id" value="<%= req.user._id %>" />
+
+  <input
+    type="text"
+    placeholder="firstname"
+    name="firstname"
+    value="<%= req.user.firstname %>"
+  />
+  <input type="file" name="img" />
+  <input type="submit" value="send" />
+</form>
