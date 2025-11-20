@@ -3,7 +3,13 @@ let Users = require("./../model/user");
 const { body, validationResult } = require("express-validator");
 const { ApiHelpers, ApiError } = require("./helper");
 const passport = require("passport");
-
+const Recaptcha = require("express-recaptcha").RecaptchaV2;
+const options = { "hl ": "en" };
+const recaptcha = new Recaptcha(
+  "6LczYRAsAAAAAEqyUt4aT9yfngmaLHgcR-1mIznd",
+  "6LczYRAsAAAAANyYGs2BzTTPmgLv2LYbPTiCs7Cq",
+  options
+);
 class UserController extends Controller {
   async Example1(req, res) {
     try {
@@ -27,7 +33,11 @@ class UserController extends Controller {
   }
   async registerForm(req, res, next) {
     try {
-      res.render("./../views/auth/register", { errors: req.flash("errors") });
+      const viewLocals = {
+        // errors: req.flash("errors"),
+        recaptcha: recaptcha.render(),
+      };
+      res.render("./../views/auth/register", viewLocals);
     } catch (err) {
       next(err);
     }
@@ -35,7 +45,11 @@ class UserController extends Controller {
 
   async loginForm(req, res, next) {
     try {
-      res.render("./../views/auth/login", { errors: req.flash("errors") });
+      const viewLocals = {
+        // errors: req.flash("errors"),
+        recaptcha: recaptcha.render(),
+      };
+      res.render("./../views/auth/login", viewLocals);
     } catch (err) {
       next(err);
     }
@@ -43,6 +57,22 @@ class UserController extends Controller {
 
   async register(req, res, next) {
     try {
+      let recaptchaResult = await new Promise((resolve, reject) => {
+        recaptcha.verify(req, (err, data) => {
+          if (err) {
+            req.flash("errors",[{msg : "Check the security option"}]);
+            res.redirect("/api/auth/register");
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        });
+      });
+
+      if (!recaptchaResult) {
+        return;
+      }
+
       const error = validationResult(req);
       if (!error.isEmpty()) {
         req.flash("errors", error.array());
@@ -60,6 +90,23 @@ class UserController extends Controller {
 
   async login(req, res, next) {
     try {
+
+         let recaptchaResult = await new Promise((resolve, reject) => {
+        recaptcha.verify(req, (err, data) => {
+          if (err) {
+            req.flash("errors",[{msg : "Check the security option"}]);
+            res.redirect("/api/auth/login");
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        });
+      });
+
+      if (!recaptchaResult) {
+        return;
+      }
+
       const error = validationResult(req);
       if (!error.isEmpty()) {
         req.flash("errors", error.array());

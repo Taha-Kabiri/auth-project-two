@@ -34,29 +34,36 @@ class dashbordController extends Controller {
 
   async edituser(req, res, next) {
     try {
-        const error = validationResult(req);
+      const error = validationResult(req);
       if (!error.isEmpty()) {
         req.flash("errors", error.array());
-        return res.redirect("/api/dashbord")
+        return res.redirect("/api/dashbord");
       }
 
       console.log("Received Body:", req.body);
-        console.log("User ID (req.body.id):", req.body.id);
-        console.log("File Upload Status:", req.file ? "File received" : "No file");
+      console.log("User ID (req.body.id):", req.body.id);
+      console.log(
+        "File Upload Status:",
+        req.file ? "File received" : "No file"
+      );
 
+      let data = {
+        firstname: req.body.firstname,
+      };
 
+      if (req.file) {
+        data.img = req.file.path.replace(/\\/g, "/").substring(6);
+      }
 
-        let data = {
-          firstname : req.body.firstname
-        }
-
-        if(req.file){
-          data.img = req.file.path.replace(/\\/g,"/").substring(6);
-        }
-
-        await Users.updateOne({_id : req.body.id} , {$set : data} );
-        res.redirect('/api/dashbord');
-
+      await Users.updateOne({ _id: req.body.id }, { $set: data });
+      res.redirect("/api/dashbord");
+    } catch (err) {
+      next(err);
+    }
+  }
+   async pay(req, res, next) {
+    try {
+     console.log('1')
     } catch (err) {
       next(err);
     }
