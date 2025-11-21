@@ -1,10 +1,7 @@
-// homeController.js
-
 const Controller = require("./controller");
 let Users = require("./../model/user");
 const { body, validationResult } = require("express-validator");
 const { ApiHelpers, ApiError } = require("./helper");
-// ⭐ اضافه کردن axios و Payment برای متد paycallback ⭐
 const axios = require("axios");
 const Payment = require("./../model/payment");
 
@@ -30,7 +27,6 @@ class homeController extends Controller {
     }
   }
 
-  // ⭐ متد paycallback (با ساختار صحیح و اضافه شدن logic) ⭐
   async paycallback(req, res, next) {
     try {
       const { Status, Authority } = req.query;

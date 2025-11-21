@@ -34,7 +34,6 @@ class UserController extends Controller {
   async registerForm(req, res, next) {
     try {
       const viewLocals = {
-        // errors: req.flash("errors"),
         recaptcha: recaptcha.render(),
       };
       res.render("./../views/auth/register", viewLocals);
@@ -46,7 +45,6 @@ class UserController extends Controller {
   async loginForm(req, res, next) {
     try {
       const viewLocals = {
-        // errors: req.flash("errors"),
         recaptcha: recaptcha.render(),
       };
       res.render("./../views/auth/login", viewLocals);
@@ -111,16 +109,14 @@ class UserController extends Controller {
         req.flash("errors", error.array());
         return res.redirect("/api/auth/login");
       }
-      // Corrected login logic to use the standard custom callback pattern for better error handling
       passport.authenticate("local.login", (err, user, info) => {
         if (err) {
-          return next(err); // Handle server-side errors
+          return next(err);
         }
         if (!user) {
-          // Passport local strategy will set flash messages on failure, so just redirect
           return res.redirect("/api/auth/login");
         }
-        // Log the user in after successful authentication
+
         req.logIn(user, (err) => {
           if (err) {
             return next(err);
