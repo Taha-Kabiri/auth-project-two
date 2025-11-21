@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+let Users = require("./../model/user");
 const { body, validationResult } = require("express-validator");
 const path = require("path");
 
@@ -30,16 +31,15 @@ router.post(
   uploadporfileuser.single("img"),
   [
     body("firstname", "Write your name, Martike").not().isEmpty(),
-   body("img").custom((value, { req }) => {
+    body("img").custom((value, { req }) => {
       if (!req.file) {
-        return true; 
+        return true;
       }
-      
-      const fileExtension = path.extname(req.file.originalname).toLowerCase(); 
+
+      const fileExtension = path.extname(req.file.originalname).toLowerCase();
       const allowedExtensions = [".jpg", ".jpeg", ".png"];
 
       if (!allowedExtensions.includes(fileExtension)) {
-      
         throw new Error("The extension of the imported image is not correct.");
       }
       return true;

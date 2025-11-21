@@ -1,9 +1,9 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("./../model/user");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
-passport.serializeUser( async (user, done) => {
+passport.serializeUser(async (user, done) => {
   done(null, user.id);
 });
 
@@ -35,12 +35,17 @@ passport.use(
         const newUser = new User({
           firstname: req.body.firstname,
           email: req.body.email,
-          password: bcrypt.hashSync(req.body.password, 10) ,
+          password: bcrypt.hashSync(req.body.password, 10),
         });
         await newUser.save();
         done(null, newUser);
       } catch (err) {
-        return done(err, false, req.flash("errors", "Registration failed due to a server error."));      }
+        return done(
+          err,
+          false,
+          req.flash("errors", "Registration failed due to a server error.")
+        );
+      }
     }
   )
 );
@@ -59,7 +64,10 @@ passport.use(
       try {
         // SYNTAX FIX: Removed 'new' before User.findOne
         let user = await User.findOne({ email: req.body.email });
-        if (!user || !await bcrypt.compare(req.body.password, user.password)) {
+        if (
+          !user ||
+          !(await bcrypt.compare(req.body.password, user.password))
+        ) {
           return done(
             null,
             false,
@@ -69,7 +77,11 @@ passport.use(
         done(null, user);
       } catch (err) {
         // FIX: Changed 'return done' to 'done' and ensured correct flash message
-        done(err, false, req.flash("errors", "An error occurred during login."));
+        done(
+          err,
+          false,
+          req.flash("errors", "An error occurred during login.")
+        );
       }
     }
   )

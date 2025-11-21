@@ -5,8 +5,8 @@ const userSchema = new Schema({
   firstname: { type: String, required: true, minlength: [3], maxlength: [20] },
   email: { type: String, required: true, maxlength: [30], unique: true },
   password: { type: String, minlength: [5], required: true },
-  balance:{type : Number , default : 50000 },
-  img : {type : String}
+  balance: { type: Number, default: 0 },
+  img: { type: String },
 });
 
 module.exports = mongoose.model("User", userSchema, "User");

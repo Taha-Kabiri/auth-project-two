@@ -27,25 +27,24 @@ app.use(
     secret: process.env.session_key,
     resave: true,
     saveUninitialized: true,
-    cookie : {expires : new Date(Date.now() + 1000 * 3600 * 24 * 1)},
-    store : MongoStore.create({
-  client: mongoose.connection.getClient()
-}),
+    cookie: { expires: new Date(Date.now() + 1000 * 3600 * 24 * 1) },
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+    }),
   })
 );
 
 app.use(flash());
 
- require("./passport/passport-local");
+require("./passport/passport-local");
 app.use(passport.initialize());
-app.use(passport.session()); 
+app.use(passport.session());
 
-
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
   console.log(req.user);
-  res.locals =  {errors : req.flash("errors") , req : req}
-      next();
-})
+  res.locals = { errors: req.flash("errors"), req: req };
+  next();
+});
 app.use("/", require("./routes/index.js"));
 
 // after all routes

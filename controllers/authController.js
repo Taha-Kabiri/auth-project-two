@@ -60,7 +60,7 @@ class UserController extends Controller {
       let recaptchaResult = await new Promise((resolve, reject) => {
         recaptcha.verify(req, (err, data) => {
           if (err) {
-            req.flash("errors",[{msg : "Check the security option"}]);
+            req.flash("errors", [{ msg: "Check the security option" }]);
             res.redirect("/api/auth/register");
             resolve(false);
           } else {
@@ -90,11 +90,10 @@ class UserController extends Controller {
 
   async login(req, res, next) {
     try {
-
-         let recaptchaResult = await new Promise((resolve, reject) => {
+      let recaptchaResult = await new Promise((resolve, reject) => {
         recaptcha.verify(req, (err, data) => {
           if (err) {
-            req.flash("errors",[{msg : "Check the security option"}]);
+            req.flash("errors", [{ msg: "Check the security option" }]);
             res.redirect("/api/auth/login");
             resolve(false);
           } else {

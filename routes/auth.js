@@ -7,10 +7,9 @@ const { body, validationResult } = require("express-validator");
 const authController = require("../controllers/authController");
 const { route } = require("./user");
 
-
-router.use((req , res , next)=>{
-  if(req.isAuthenticated()){
-    return res.redirect('/api/dashbord')
+router.use((req, res, next) => {
+  if (req.isAuthenticated()) {
+    return res.redirect("/api/dashbord");
   }
   next();
 });
@@ -18,19 +17,29 @@ router.use((req , res , next)=>{
 router.get("/login", authController.loginForm.bind(authController));
 router.get("/register", authController.registerForm.bind(authController));
 
-router.post("/login",[
+router.post(
+  "/login",
+  [
     body("email", "Enter your email.").isEmail(),
     body("password", "The minimum password characters are 5 ").isLength({
       min: 5,
     }),
-  ], authController.login.bind(authController));
-router.post("/register",[
+  ],
+  authController.login.bind(authController)
+);
+router.post(
+  "/register",
+  [
     body("email", "Enter your email.").isEmail(),
     body("password", "The minimum password characters are 5 ").isLength({
       min: 5,
     }),
-    body("firstname", "Write your name, Martike.").not().isEmpty().isLength({ min: 2 }),
-  ], authController.register.bind(authController));
-
+    body("firstname", "Write your name, Martike.")
+      .not()
+      .isEmpty()
+      .isLength({ min: 2 }),
+  ],
+  authController.register.bind(authController)
+);
 
 module.exports = router;
