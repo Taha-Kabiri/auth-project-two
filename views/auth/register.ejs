@@ -9,10 +9,111 @@
   <% } %>
 </div>
 
-<form action="/api/auth/register" method="POST">
-  <input type="text" placeholder="firstname" name="firstname" />
-  <input type="text" placeholder="email" name="email" />
-  <input type="text" placeholder="password" name="password" />
-  <%- recaptcha %>
-  <input type="submit" value="register" id="" />
-</form>
+<div style="
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    min-height: 100vh;
+">
+    
+    <div style="
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        padding: 30px;
+        box-sizing: border-box;
+        text-align: center;
+    ">
+        
+        <h1 style="color: #333; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 30px;">
+            📝 User Registration
+        </h1>
+
+        <% if(errors && errors.length > 0){ %>
+            <div style="padding: 10px; background-color: #fbecec; border: 1px solid #f5c2c2; color: #a00; border-radius: 5px; margin-bottom: 20px; text-align: left;">
+                <ul style="padding-left: 0; margin: 0;">
+                 <% errors.forEach(function(err) { %>
+                    <li style="list-style: none; margin-left: 0;">- <%= err.msg %></li>
+                  <% }) %>
+                </ul>
+            </div>
+         <% } %>
+
+        <form action="/api/auth/register" method="POST">
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #666; text-align: left;">Full Name</label>
+                <input 
+                    type="text" 
+                    placeholder="Full Name" 
+                    name="firstname" 
+                    required
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                />
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #666; text-align: left;">Email</label>
+                <input 
+                    type="email" 
+                    placeholder="email@example.com" 
+                    name="email" 
+                    required
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                />
+            </div>
+            
+            <div style="margin-bottom: 25px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #666; text-align: left;">Password</label>
+                <input 
+                    type="password" 
+                    placeholder="password" 
+                    name="password" 
+                    required
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                />
+            </div>
+            
+            <div style="margin-bottom: 25px; text-align: center;">
+                <%- recaptcha %>
+            </div>
+
+            <input 
+                type="submit" 
+                value="Register" 
+                style="
+                    width: 100%;
+                    padding: 12px; 
+                    background-color: #4CAF50; /* رنگ سبز */
+                    color: white; 
+                    border: none; 
+                    border-radius: 5px; 
+                    cursor: pointer; 
+                    font-size: 1.1em;
+                    font-weight: bold;
+                    transition: background-color 0.3s;
+                "
+                onmouseover="this.style.backgroundColor='#388E3C'"
+                onmouseout="this.style.backgroundColor='#4CAF50'"
+            />
+        </form>
+
+        <hr style="border: 0; height: 1px; background-color: #eee; margin: 30px 0;">
+
+        <div style="font-size: 0.9em; color: #555;">
+            Already have an account? 
+            <a 
+                href="/api/auth/login" 
+                style="color: #2196F3; text-decoration: none; font-weight: bold;"
+            >
+                Login Here
+            </a>
+        </div>
+
+    </div>
+</div>

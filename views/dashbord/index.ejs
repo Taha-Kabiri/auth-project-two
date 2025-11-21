@@ -1,254 +1,168 @@
 <div>
-  <% if(errors && errors.length > 0){ %>
+       <% if(errors && errors.length > 0){ %>
+        
+            <ul>
+             <% errors.forEach(function(err) { %>
+                <li> <%= err.msg %></li>
+              <% }) %>
+            </ul>
+    
+         <% } %>
+    </div>
 
-  <ul>
-    <% errors.forEach(function(err) { %>
-    <li><%= err.msg %></li>
-    <% }) %>
-  </ul>
+<%# Note: The 'user' and 'balance' variables are passed to this view by the dashbordController. %>
 
-  <% } %>
-</div>
-
-<%# Note: The 'user' and 'balance' variables are passed to this view by the
-dashbordController. %>
-
-<div
-  style="
+<div style="
     font-family: Arial, sans-serif;
     background-color: #f4f7f6;
     padding: 20px;
     display: flex;
     justify-content: center;
     min-height: 100vh;
-  "
->
-  <div
-    style="
-      background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 500px;
-      padding: 30px;
-      box-sizing: border-box;
-    "
-  >
-    <h1
-      style="
-        color: #333;
-        border-bottom: 2px solid #eee;
-        padding-bottom: 15px;
-        margin-bottom: 20px;
-      "
-    >
-      User Dashboard
-    </h1>
+">
+    
+    <div style="
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+        padding: 30px;
+        box-sizing: border-box;
+    ">
+        
+        <h1 style="color: #333; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 20px;">
+            User Dashboard
+        </h1>
 
-    <div
-      style="
-        margin-bottom: 30px;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-      "
-    >
-      <h2 style="color: #555; font-size: 1.2em; margin-top: 0">
-        👋 Welcome, <%= user.firstname %>
-      </h2>
+        <div style="margin-bottom: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+            
+            <h2 style="color: #555; font-size: 1.2em; margin-top: 0;">👋 Welcome, <%= user.firstname %></h2>
+            
+            <form action="/api/dashbord/edituser" method="POST" enctype="multipart/form-data">
+                
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <img 
+                        src="<%= user.img %>" 
+                        alt="Profile Picture" 
+                        style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #4CAF50;"
+                    >
+                </div>
+                
+                <input type="hidden" name="id" value="<%= user._id %>" />
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #666;">Username</label>
+                    <input 
+                        type="text" 
+                        placeholder="First Name" 
+                        name="firstname" 
+                        value="<%= user.firstname %>" 
+                        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;"
+                    />
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #666;">Change Picture</label>
+                    <input type="file" name="img" style="border: none; padding: 5px 0;" />
+                </div>
 
-      <form
-        action="/api/dashbord/edituser"
-        method="POST"
-        enctype="multipart/form-data"
-      >
-        <div style="text-align: center; margin-bottom: 15px">
-          <img
-            src="<%= user.img %>"
-            alt="Profile Picture"
-            style="
-              width: 120px;
-              height: 120px;
-              border-radius: 50%;
-              object-fit: cover;
-              border: 4px solid #4caf50;
-            "
-          />
+                <input 
+                    type="submit" 
+                    value="Update Profile" 
+                    style="
+                        width: 100%;
+                        padding: 10px; 
+                        background-color: #2196F3; 
+                        color: white; 
+                        border: none; 
+                        border-radius: 5px; 
+                        cursor: pointer; 
+                        font-size: 1em;
+                        transition: background-color 0.3s;
+                    "
+                    onmouseover="this.style.backgroundColor='#0b7dda'"
+                    onmouseout="this.style.backgroundColor='#2196F3'"
+                />
+            </form>
         </div>
 
-        <input type="hidden" name="id" value="<%= user._id %>" />
+        <hr style="border: 0; height: 1px; background-color: #eee; margin: 30px 0;">
 
-        <div style="margin-bottom: 15px">
-          <label
-            style="
-              display: block;
-              margin-bottom: 5px;
-              font-weight: bold;
-              color: #666;
-            "
-            >Username</label
-          >
-          <input
-            type="text"
-            placeholder="First Name"
-            name="firstname"
-            value="<%= user.firstname %>"
-            style="
-              width: 100%;
-              padding: 10px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-              box-sizing: border-box;
-            "
-          />
+        <div style="padding: 20px; 
+            background-color: #e3f2fd; /* Light blue for emphasis */
+            border: 1px solid #bbdefb; 
+            border-radius: 8px; 
+            margin-bottom: 30px; 
+            text-align: center;">
+            
+            <h2 style="color: #1976D2; 
+                font-size: 1.2em; 
+                margin-top: 0;">💵 Your Current Wallet Balance:</h2>
+            
+            <% 
+                // Balance is assumed to be in Rial (Rial is stored in the database)
+                let balanceRial = balance || 0; 
+                let balanceToman = balanceRial / 10;
+                
+                // Formatting for thousands separator and Persian numerals
+                let formattedRial = balanceRial.toLocaleString('fa-IR');
+                let formattedToman = balanceToman.toLocaleString('fa-IR');
+            %>
+            
+            <p style="font-size: 2.2em; 
+                color: #303f9f; /* Dark blue balance color */
+                font-weight: bold; 
+                margin: 5px 0;">
+                <%= formattedRial %> <span style="font-size: 0.5em; font-weight: normal;">Rial</span>
+            </p>
+            
+            <p style="color: #64b5f6; margin: 0; font-size: 0.9em;">
+                (Equivalent to <%= formattedToman %> Toman)
+            </p>
+        </div>
+        <div style="padding: 20px; background-color: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 8px; margin-bottom: 30px;">
+            <h2 style="color: #388E3C; font-size: 1.2em; margin-top: 0;">💰 Increase Wallet Balance</h2>
+            
+            <form action="/api/dashbord/pay" method="POST">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Desired Amount (in Toman)</label>
+                    <input 
+                        type="number" 
+                        name="amount" 
+                        placeholder="e.g., 30000" 
+                        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;" 
+                    />
+                </div>
+                
+                <input 
+                    type="submit" 
+                    value="Payment" 
+                    style="
+                        width: 100%;
+                        padding: 10px; 
+                        background-color: #4CAF50; 
+                        color: white; 
+                        border: none; 
+                        border-radius: 5px; 
+                        cursor: pointer; 
+                        font-size: 1em;
+                        transition: background-color 0.3s;
+                    "
+                    onmouseover="this.style.backgroundColor='#388E3C'"
+                    onmouseout="this.style.backgroundColor='#4CAF50'"
+                />
+            </form>
         </div>
 
-        <div style="margin-bottom: 20px">
-          <label
-            style="
-              display: block;
-              margin-bottom: 5px;
-              font-weight: bold;
-              color: #666;
-            "
-            >Change Picture</label
-          >
-          <input type="file" name="img" style="border: none; padding: 5px 0" />
+        <div style="text-align: center;">
+            <a 
+                href="/api/logout" 
+                style="color: #F44336; text-decoration: none; font-weight: bold; padding: 10px 20px; border: 1px solid #F44336; border-radius: 5px; display: inline-block;"
+            >
+                Logout
+            </a>
         </div>
 
-        <input
-          type="submit"
-          value="Update Profile"
-          style="
-            width: 100%;
-            padding: 10px;
-            background-color: #2196f3;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s;
-          "
-          onmouseover="this.style.backgroundColor='#0b7dda'"
-          onmouseout="this.style.backgroundColor='#2196F3'"
-        />
-      </form>
     </div>
-
-    <hr
-      style="border: 0; height: 1px; background-color: #eee; margin: 30px 0"
-    />
-
-    <div
-      style="
-        padding: 20px;
-        background-color: #e3f2fd; /* Light blue for emphasis */
-        border: 1px solid #bbdefb;
-        border-radius: 8px;
-        margin-bottom: 30px;
-        text-align: center;
-      "
-    >
-      <h2 style="color: #1976d2; font-size: 1.2em; margin-top: 0">
-        💵 Your Current Wallet Balance:
-      </h2>
-
-      <% // Balance is assumed to be in Rial (Rial is stored in the database)
-      let balanceRial = balance || 0; let balanceToman = balanceRial / 10; //
-      Formatting for thousands separator and Persian numerals let formattedRial
-      = balanceRial.toLocaleString('fa-IR'); let formattedToman =
-      balanceToman.toLocaleString('fa-IR'); %>
-
-      <p
-        style="
-          font-size: 2.2em;
-          color: #303f9f; /* Dark blue balance color */
-          font-weight: bold;
-          margin: 5px 0;
-        "
-      >
-        <%= formattedRial %>
-        <span style="font-size: 0.5em; font-weight: normal">Rial</span>
-      </p>
-
-      <p style="color: #64b5f6; margin: 0; font-size: 0.9em">
-        (Equivalent to <%= formattedToman %> Toman)
-      </p>
-    </div>
-    <div
-      style="
-        padding: 20px;
-        background-color: #e8f5e9;
-        border: 1px solid #c8e6c9;
-        border-radius: 8px;
-        margin-bottom: 30px;
-      "
-    >
-      <h2 style="color: #388e3c; font-size: 1.2em; margin-top: 0">
-        💰 Increase Wallet Balance
-      </h2>
-
-      <form action="/api/dashbord/pay" method="POST">
-        <div style="margin-bottom: 15px">
-          <label
-            style="
-              display: block;
-              margin-bottom: 5px;
-              font-weight: bold;
-              color: #555;
-            "
-            >Desired Amount (in Toman)</label
-          >
-          <input
-            type="number"
-            name="amount"
-            placeholder="e.g., 30000"
-            style="
-              width: 100%;
-              padding: 10px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-              box-sizing: border-box;
-            "
-          />
-        </div>
-
-        <input
-          type="submit"
-          value="Payment"
-          style="
-            width: 100%;
-            padding: 10px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s;
-          "
-          onmouseover="this.style.backgroundColor='#388E3C'"
-          onmouseout="this.style.backgroundColor='#4CAF50'"
-        />
-      </form>
-    </div>
-
-    <div style="text-align: center">
-      <a
-        href="/api/logout"
-        style="
-          color: #f44336;
-          text-decoration: none;
-          font-weight: bold;
-          padding: 10px 20px;
-          border: 1px solid #f44336;
-          border-radius: 5px;
-          display: inline-block;
-        "
-      >
-        Logout
-      </a>
-    </div>
-  </div>
 </div>

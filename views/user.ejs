@@ -1,64 +1,95 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="/css/style.css">
-    <title><%= title %></title>
-  </head>
-  <body>
-    <div>
-       <% if(errors && errors.length > 0){ %>
-        
-            <ul>
-             <% errors.forEach(function(err) { %>
-                <li> <%= err.msg %></li>
-              <% }) %>
-            </ul>
-         <% } %>
-    </div>
-    <div>
-       <% if(!message.isEmpty) { %>
-          <h4><%= message %></h4>
-         <% } %>
-    </div>
- 
-        </div>
-      
+<div style="
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    padding: 20px;
+    min-height: 100vh;
+">
     
-        <form action="/api/user" method="post">
-                <input type="text" placeholder="id" name="id">
-            <input type="text" placeholder="firstname" name="firstname">
-            <input type="text" placeholder="email" name="email">
-            <input type="text" placeholder="password" name="password">
-            <input type="submit">
-         </form>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>firstname</th>
-          <th>email</th>
-          <th>password</th>
-        </tr>
-      </thead>
-      <tbody>
-            <%  users.forEach(user=>{ %>
-        <tr>  
-          <td><%= user.id %></td>
-          <td><%= user.firstname %></td>
-          <td><%= user.email %></td>
-          <td><%= user.password%></td>
-          <td>
-            <form action="/api/user/<%= user.id %>?method=DELETE" method="POST">
-            <input type="submit" value="remove">  
-            <a href="/api/user/<%= user.id %>">apdate</a>
+    <div style="
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 30px;
+        box-sizing: border-box;
+    ">
+        
+        <h1 style="color: #333; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 30px;">
+            👥 User Management (<%= title %>)
+        </h1>
+
+        <% if(errors && errors.length > 0){ %>
+            <div style="padding: 10px; background-color: #fbecec; border: 1px solid #f5c2c2; color: #a00; border-radius: 5px; margin-bottom: 20px; text-align: left;">
+                <ul style="padding-left: 0; margin: 0;">
+                 <% errors.forEach(function(err) { %>
+                    <li style="list-style: none; margin-left: 0;">❌ <%= err.msg %></li>
+                  <% }) %>
+                </ul>
+            </div>
+         <% } %>
+         <% if(typeof message !== 'undefined' && message.length > 0) { %>
+             <div style="padding: 10px; background-color: #e8f5e9; border: 1px solid #c8e6c9; color: #388E3C; border-radius: 5px; margin-bottom: 20px;">
+                <h4>✅ <%= message %></h4>
+             </div>
+         <% } %>
+
+        <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+            <h2 style="font-size: 1.1em; color: #555; margin-top: 0;">➕ Add New User</h2>
+            <form action="/api/user" method="post" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;">
+                <input type="text" placeholder="id (optional)" name="id" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; min-width: 100px;">
+                <input type="text" placeholder="firstname" name="firstname" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; min-width: 100px;">
+                <input type="text" placeholder="email" name="email" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; min-width: 150px;">
+                <input type="password" placeholder="password" name="password" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1; min-width: 150px;">
+                <input type="submit" value="Submit" style="padding: 8px 15px; background-color: #03A9F4; color: white; border: none; border-radius: 4px; cursor: pointer;">
             </form>
-                
-          </td>
-        </tr>
+        </div>
 
-             <% }) %>
-
-      </tbody>
-    </table>
-  </body>
-</html>
+        <table style="width: 100%; border-collapse: collapse; text-align: left; background-color: #fff; border: 1px solid #ddd;">
+            <thead style="background-color: #f0f0f0;">
+                <tr>
+                    <th style="padding: 12px; border: 1px solid #ddd;">ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">First Name</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Email</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Password (Hashed)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(user=>{ %>
+                <tr style="border-top: 1px solid #eee;">  
+                    <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.8em;"><%= user.id %></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><%= user.firstname %></td>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><%= user.email %></td>
+                    <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.8em; overflow-wrap: break-word; max-width: 250px;"><%= user.password%></td>
+                    <td style="padding: 10px; border: 1px solid #ddd; display: flex; gap: 5px;">
+                        <form action="/api/user/<%= user.id %>?method=DELETE" method="POST">
+                            <input 
+                                type="submit" 
+                                value="Remove" 
+                                style="padding: 6px 10px; background-color: #F44336; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;"
+                            >
+                        </form>
+                        <a 
+                            href="/api/user/<%= user.id %>" 
+                            [cite_start]style="padding: 6px 10px; background-color: #FF9800; color: white; border-radius: 4px; text-decoration: none; font-size: 0.9em; line-height: 1.1;" [cite: 77]
+                        >
+                            Update
+                        </a>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        
+         <div style="margin-top: 20px; text-align: right;">
+            <a 
+                href="/api/dashbord" 
+                style="color: #2196F3; text-decoration: none; font-weight: bold;"
+            >
+                ← Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
